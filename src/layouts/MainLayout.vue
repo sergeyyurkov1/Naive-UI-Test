@@ -1,44 +1,55 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+  <n-page-header subtitle="A podcast to improve designs" @back="handleBack">
+    <n-grid :cols="5">
+      <n-gi>
+        <n-statistic label="Episodes" value="125" />
+      </n-gi>
+      <n-gi>
+        <n-statistic label="Guests" value="22" />
+      </n-gi>
+      <n-gi>
+        <n-statistic label="Apologies" value="36" />
+      </n-gi>
+      <n-gi>
+        <n-statistic label="Topics" value="83" />
+      </n-gi>
+      <n-gi>
+        <n-statistic label="Reference Links" value="2,346" />
+      </n-gi>
+    </n-grid>
+    <template #title>
+      <a
+        href="https://anyway.fm/"
+        style="text-decoration: none; color: inherit"
+      >
+        Anyway.FM
+      </a>
+    </template>
+    <template #header>
+      <n-breadcrumb>
+        <n-breadcrumb-item>Podcast</n-breadcrumb-item>
+        <n-breadcrumb-item>Best Collection</n-breadcrumb-item>
+        <n-breadcrumb-item>Ultimate Best Collection</n-breadcrumb-item>
+        <n-breadcrumb-item>Anyway.FM</n-breadcrumb-item>
+      </n-breadcrumb>
+    </template>
+    <template #avatar>
+      <n-avatar
+        src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg"
+      />
+    </template>
+    <template #extra>
+      <n-space>
+        <n-button>Refresh</n-button>
+        <n-dropdown :options="options" placement="bottom-start">
+          <n-button :bordered="false" style="padding: 0 4px"> ··· </n-button>
+        </n-dropdown>
+      </n-space>
+    </template>
+    <template #footer> As of April 3, 2021 </template>
+  </n-page-header>
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
+  <q-layout>
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -46,71 +57,32 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import { defineComponent } from "vue";
+import { useMessage } from "naive-ui";
 
 export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
+  name: "MainLayout",
+  setup() {
+    const message = useMessage();
     return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-})
+      handleBack() {
+        message.info("[onBack]");
+      },
+      options: [
+        {
+          label: "More episodes",
+          key: "1",
+        },
+        {
+          label: "More episodes",
+          key: "2",
+        },
+        {
+          label: "More episodes",
+          key: "3",
+        },
+      ],
+    };
+  },
+});
 </script>
